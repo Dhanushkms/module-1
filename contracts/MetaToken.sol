@@ -1,17 +1,42 @@
 // SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "erc721a/contracts/ERC721A.sol";
 
-contract MetaToken is ERC20, Ownable {
-    constructor() ERC20("MetaToken", "MTA") {}
+contract CuteCats is ERC721A {
+    address public owner;
 
-    function mint(address to, uint256 amount) public onlyOwner {
-        _mint(to, amount);
+    uint256 public maxQuantity = 5;
+
+    
+    string baseUrl =
+        "https://indigo-immense-barnacle-223.mypinata.cloud/ipfs/QmYAguVHDGpTpHTP1bpG9VmVhZHJt5RHQii4TvAxbCWUqo/";
+
+
+    string public prompt = "cute kitten around the shop";
+    constructor() ERC721A("CuteCats", "CC") {
+        owner = msg.sender;
     }
 
-    function decimals() public pure override returns (uint8) {
-		return 0;
-	}
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can perform this action!");
+        _;
+    }
+
+    function mint(uint256 quantity) external payable onlyOwner {
+        require(
+            totalSupply() + quantity <= maxQuantity,
+            "You can not mint more than 5"
+        );
+        _mint(msg.sender, quantity);
+    }
+
+    function _baseURI() internal view override returns (string memory) {
+        return baseUrl;
+    }
+
+    function promptDescription() external view returns (string memory) {
+        return prompt;
+    }
 }
