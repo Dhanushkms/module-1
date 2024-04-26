@@ -4,18 +4,18 @@ pragma solidity ^0.8.9;
 
 import "erc721a/contracts/ERC721A.sol";
 
-contract CuteCats is ERC721A {
+contract MyHeroToken is ERC721A {
     address public owner;
 
     uint256 public maxQuantity = 5;
 
     
     string baseUrl =
-        "https://indigo-immense-barnacle-223.mypinata.cloud/ipfs/QmYAguVHDGpTpHTP1bpG9VmVhZHJt5RHQii4TvAxbCWUqo/";
+        "Your here should be my hero token base image url";
 
 
-    string public prompt = "cute kitten around the shop";
-    constructor() ERC721A("CuteCats", "CC") {
+    string public prompt = "My HeroToken around the world";
+    constructor() ERC721A("MyHeroToken", "MHT") {
         owner = msg.sender;
     }
 
